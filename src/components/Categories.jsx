@@ -1,63 +1,46 @@
-import React from 'react';
+import React from "react";
+import PropTypes from "prop-types";
 
-// class Categories extends React.Component {
-//   state = {
-//     activeItem: 3,
-//     test: 123,
-//   };
-
-//   onSelectItem = (index) => {
-//     this.setState({
-//       activeItem: index,
-//     });
-//   };
-
-//   render() {
-//     const { items, onClickItem } = this.props;
-//     console.log(this.state);
-//     return (
-//       <div className="categories">
-//         <ul>
-//           <li>Все</li>
-//           {items.map((name, index) => (
-//             <li
-//               className={this.state.activeItem === index ? 'active' : ''}
-//               onClick={() => this.onSelectItem(index)}
-//               key={`${name}_${index}`}>
-//               {name}
-//             </li>
-//           ))}
-//         </ul>
-//       </div>
-//     );
-//   }
-// }
-
-function Categories({ items, onClickItem }) {
-  const [activeItem, setActiveItem] = React.useState(null);
+const Categories = React.memo(({ items, onClickItem, category }) => {
+  // items - array of pizza
 
   const onSelectItem = (index) => {
-    setActiveItem(index);
+    // calling in <Home/>
+    onClickItem(index);
   };
 
   return (
     <div className="categories">
       <ul>
-        <li className={activeItem === null ? 'active' : ''} onClick={() => onSelectItem(null)}>
+        <li
+          className={category === null ? "active" : ""}
+          onClick={() => onSelectItem(null)}
+        >
           Все
         </li>
+
         {items &&
           items.map((name, index) => (
             <li
-              className={activeItem === index ? 'active' : ''}
+              /* при клике мы в стейт передаем индекс и в массиве сравниваем индекс со стейта с индексом в массиве и при совпадении true */
+              className={category === index ? "active" : ""}
               onClick={() => onSelectItem(index)}
-              key={`${name}_${index}`}>
+              key={`${name}_${index}`}
+            >
               {name}
             </li>
           ))}
       </ul>
     </div>
   );
-}
+});
 
 export default Categories;
+
+Categories.defaultProps = { items: [], onClickItem: () => {}, category: null };
+
+Categories.propTypes = {
+  items: PropTypes.arrayOf(PropTypes.string).isRequired,
+  onClickItem: PropTypes.func,
+  category: PropTypes.number,
+};

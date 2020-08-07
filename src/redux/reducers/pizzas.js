@@ -1,17 +1,27 @@
+const SET_PIZZAS = "SET_PIZZAS";
+const SET_IS_LOADING = "SET_IS_LOADING";
+
 const initialState = {
   items: [],
   isLoaded: false,
 };
 
 const pizzas = (state = initialState, action) => {
-  console.log(action, 'reducerPizzas');
-  if (action.type === 'SET_PIZZAS') {
-    return {
-      ...state,
-      items: action.payload,
-    };
+  switch (action.type) {
+    case SET_PIZZAS:
+      return {
+        ...state,
+        items: action.payload,
+      };
+    case SET_IS_LOADING:
+      return {
+        ...state,
+        isLoaded: action.payload,
+      };
+
+    default:
+      return state;
   }
-  return state;
 };
 
 export default pizzas;
